@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Update Employee Record</title>
+    <link rel="stylesheet" href="{%  static 'style.css' %}">
+    <style>
+        form{
+            width: 30rem;
+        }
+    </style>
+  </head>
+  <body>
+    <form class="signup-form"  method="POST">
+      <div class="form-header">
+        <h1>Update Employee Record</h1>
+      </div>
+      <div class="form-body">
+        {% csrf_token %}
+        <div class="horizontal-group">
+          <div class="form-group left">
+            <input type="text"  name="Fname" value="{{ form.0.1}}" class="form-input" placeholder="Enter username" required />
+          </div>
+          <div class="form-group right">
+            <input type="text" name="Lname" value="{{ form.0.2}}" class="form-input" placeholder="Enter your Full name" />
+          </div>   
+        </div>
+        <table>
+          <tr>
+            <td>
+              <div class="form-group">
+                  <div class="horizontal-group">
+                      <div class="form-group left" >
+                        <select class="form-input" name="Gender"  value="{{ form.0.3}}"  style="width: 200px; height: 44px; border: 2px inset grey; border-radius: 4px;margin-right: 50px;" >
+                            {% if form.0.3 == 'male' %}
+                            <option value="male" selected>Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                            {% elif form.0.3 == 'female' %}
+                            <option value="male" >Male</option>
+                            <option value="female" selected>Female</option>
+                            <option value="other">Other</option>
+                            {% elif form.0.3 == 'female' %}
+                            <option value="male" >Male</option>
+                            <option value="female">Female</option>
+                            <option value="other" selected>Other</option>
+                            {%  endif %}
+                        </select>
+                      </div>
+            </td>
+            <td>
+              <div class="form-group">
+                <input type="date" name="DOB" value="{{ date }}"  class="form-input" placeholder="Enter your date of birth" required="required"  style="width: 220px; height: 44px;  border: 2px inset grey; border-radius: 4px; " >
+              </div>
+            </td>
+          </tr>
+        </table>
+        <div class="form-group">
+            <div class="form-group right" >
+            <input type="text" name="Dept" value="{{ form.0.7}}" class="form-input" placeholder="Enter your Department" required="required">
+            </div>
+        </div>
+          <input type="text" name="Email" value="{{ form.0.5}}" class="form-input" placeholder="Enter your email" required="required">
+        </div>
+        <div class="form-group">
+            <input type="text" name="Mobileno" value="{{ form.0.6}}"  class="form-input" placeholder="Enter your mobile number" required="required">
+        </div>
+          <p>{{ info }}</p> 
+          <button type="submit">SUBMIT</button> <p class="register"> 
+
+    </form>
+  </body>
+</html>

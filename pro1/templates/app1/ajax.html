@@ -1,0 +1,178 @@
+<script>
+// Add data code 
+
+$("#save_add").click(function(){
+    console.log('save button clicked')
+    output=""
+    let User_Name_add = $("#user_name").val()
+    let Name_add = $("#Name").val()
+    let DOB_add = $("#DOB_").val()
+    let gender_add = $("#Gender_").val()
+    let department_add = $("#Dept_").val()
+    let mobileno_add = $("#Mobilen_o").val()
+    let emailid_add = $("#Email_Id").val()
+    let password_add = $("#Password_").val()
+    let Repassword_add = $ ('#Re_password').val()
+    let csrf = $('input[name=csrfmiddlewaretoken').val()
+    
+    if ((User_Name_add=="") || (Name_add=="") || (DOB_add=="") ||
+    (gender_add=="") || (department_add=="") || (mobileno_add=="") ||
+    (emailid_add=="") || (password_add=="") || (Repassword_add=="")) {
+        $('#Error_add').innerHTML = 'All Fields Are Compulsory!!!'
+        console.log('All fields are compulsory');
+    }
+    
+    else{
+        mydata = {
+            Fname:User_Name_add,
+            Lname:Name_add,
+            DOB:DOB_add,
+            Gender:gender_add,
+            Dept:department_add,
+            Mobileno:mobileno_add,
+            Email:emailid_add,
+            Password:password_add,
+            Repassword:Repassword_add,
+            csrfmiddlewaretoken:csrf,
+        };
+    
+        $.ajax({
+            url: "{% url 'employee' %}",
+            method: "POST",
+            data: mydata,
+            success: function(data){
+                if (data.status == "save")
+                {
+                    console.log('Data inserted succesfully!!!');
+                    console.log(data.new_data)
+                    $("form")[2].reset();
+                    x=data.new_data;
+                    for (i=0; i<x.length; i++){
+                        output +=   "<tr><td>"+ (i+1)+"</td>" + "<td>" + x[i][2]+ 
+                                    "</td>" + "<td>" + x[i][3] + "</td>" +"<td>" + 
+                                    x[i][4] +"</td>" +"<td>" +x[i][5] +"</td>" 
+                                    + "<td>"+x[i][6] + "</td>" + "<td>" + x[i][7] + 
+                                    "</td>" + "<td><button onclick=\"update_fun('"+x[i][1]+","+ x[i][2] +","+ x[i][3] +","+ x[i][4] + ","+ x[i][5] +","+ x[i][6] +","+ x[i][7] +"')\"  data-toggle=\"modal\" data-target=\"#exampleModalLong\" class=\"btn btn-primary btn-sm\">Update</button> <button onclick=\"delete_fun(" + x[i][0] + ") \"  data-toggle=\"modal\" data-target=\"#myModaldelete\" class=\"btn btn-danger btn-sm btn-del\">delete</button>" + "</td></tr>" 
+                    
+                    $('#info').html('Data inserted succesfully!!!')
+                    }
+                    $('#tbody').html(output)
+
+                }
+                else
+                {   
+                    $('#info').html('Data Not inserted succesfully!!!')
+                    console.log('Data Not inserted succesfully!!!');
+                }
+            },
+        });
+      }
+    });    
+
+    // Update data code
+    $('#save_upd').click(function(){
+        console.log('Update Button clicked!!')
+        output=""
+        let id_upd = $("#num").val()
+        let User_upd = $("#uname").val()
+        let Name_upd = $("#Fname").val()
+        let DOB_upd = $("#date").val()
+        let gender_upd = $("#gender").val()
+        let department_upd = $("#dept").val()
+        let mobileno_upd = $("#mobileno").val()
+        let emailid_upd = $("#email").val()
+        let csrf = $('input[name=csrfmiddlewaretoken').val()
+    
+        if  ((id_upd=="")||(User_upd=="") || (Name_upd=="") || (DOB_upd=="") ||
+            (gender_upd=="") || (department_upd=="") || (mobileno_upd=="") ||
+            (emailid_upd=="") ) {
+            $('#Error_add').innerHTML = 'All Fields Are Compulsory!!!'
+            console.log('All fields are compulsory');
+            }
+    
+        else{
+            mydata = {
+                id:id_upd,
+                Fname:User_upd,
+                Lname:Name_upd,
+                DOB:DOB_upd,
+                Gender:gender_upd,
+                Dept:department_upd,
+                Mobileno:mobileno_upd,
+                Email:emailid_upd,
+                csrfmiddlewaretoken:csrf
+            };
+            console.log(mydata)
+            $.ajax({
+                url: "{% url 'update' %}",
+                method: "POST",
+                data: mydata,
+                success: function(data){
+                    if (data.status == "save")
+                    {
+                        console.log('Data inserted succesfully!!!');
+                        console.log(data.new_data)
+                        // $("form")[2].reset();
+                        x=data.new_data;
+                        console.log(x)
+                        for (i=0; i<x.length; i++){
+                            output +=   "<tr><td>"+ (i+1)+"</td>" + "<td>" + x[i][2]+ 
+                                        "</td>" + "<td>" + x[i][3] + "</td>" +"<td>" + 
+                                        x[i][4] +"</td>" +"<td>" +x[i][5] +"</td>" 
+                                        + "<td>"+x[i][6]+"</td>" + "<td>" + x[i][7] + 
+                                        "</td>" + "<td>" + "<button onclick=\"update_fun('"+x[i][0]+","+x[i][1]+","+ x[i][2] +","+ x[i][3]+","+ x[i][4] + ","+ x[i][5] +","+ x[i][6] +","+ x[i][7] +"')\"  data-toggle=\"modal\" data-target=\"#exampleModalLong\" class=\"btn btn-primary btn-sm\">Update</button><button onclick=\"delete_fun(" + x[i][0] + ") \"  data-toggle=\"modal\" data-target=\"#myModaldelete\" class=\"btn btn-danger btn-sm btn-del\">delete</button></td></tr>"    
+                        
+                        $('#info').html('Data inserted succesfully!!!') 
+                        }
+                        $('#tbody').html(output)
+
+                    }
+                    else
+                    {   
+                        $('#info').html('Data Not inserted succesfully!!!')
+                        console.log('Data Not inserted succesfully!!!');
+                    }
+                },
+            });
+    }
+    });    
+
+
+    // Delete data code
+
+    $("#delete11").click(function(){
+        console.log('delete button clicked');
+        let id = $('#delete_id_click').val()
+        let csrf = $('input[name=csrfmiddlewaretoken').val()
+        output=""
+        my_data={
+            id:id,csrfmiddlewaretoken:csrf
+        };
+        $.ajax({
+            url:"{% url 'delete' %}",
+            method:"POST",
+            data:my_data,
+            success:function(data){
+                if (data.del_status==1){
+                    x=data.new_data;
+                    for (i=0; i<x.length; i++){
+                        output +=   "<tr><td>"+ (i+1)+"</td>" + "<td>" + x[i][2]+ 
+                                    "</td>" + "<td>" + x[i][3] + "</td>" +"<td>" + 
+                                    x[i][4] +"</td>" +"<td>" +x[i][5] +"</td>" 
+                                    + "<td>"+x[i][6] + "</td>" + "<td>" + x[i][7] + 
+                                    "</td>" + "<td>" + "<button onclick=\"update_fun('"+ x[i][1] +",   "+ x[i][2] +",  "+ x[i][3] +",  "+ x[i][4] + ",  "+ x[i][5] +",  "+ x[i][6] +" , "+ x[i][7] +" ')\"  data-toggle=\"modal\" data-target=\"#exampleModalLong\" class=\"btn btn-primary btn-sm\">Update</button>\
+                                    <button  onclick=\"delete_fun(" + x[i][0] + ") \"  data-toggle=\"modal\" data-target=\"#myModaldelete\" class=\"btn btn-danger btn-sm btn-del\">delete</button>" + "</td></tr>" 
+                                    }
+                    $('#tbody').html(output);
+
+                }
+
+            }
+        });
+        
+    
+    }
+    )
+
+
+</script>

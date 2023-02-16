@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Admin Register Form</title>
+    <link rel="stylesheet" href="{%  static 'style.css' %}">
+    <style>
+        form{
+            width: 30rem;
+        }
+    </style>
+  </head>
+  <body>
+    <form class="signup-form"  method="POST">
+      <div class="form-header">
+        <h1>Register New Admin</h1>
+      </div>
+      <div class="form-body">
+        {% csrf_token %}
+        <div class="horizontal-group">
+          <div class="form-group left">
+            <input type="text"  name="Fname" class="form-input" placeholder="Enter username" required />
+          </div>
+          <div class="form-group right">
+            <input type="text" name="Lname" class="form-input" placeholder="Enter your Full name" />
+          </div>   
+        </div>
+        <table>
+          <tr>
+            <td>
+              <div class="form-group">
+                  <div class="horizontal-group">
+                      <div class="form-group left" >
+                        <select class="form-input" name="Gender" style="width: 200px; height: 44px; border: 2px inset grey; border-radius: 4px;margin-right: 50px;" >
+                          <option value="male">----</option>
+                          <option value="male">Male</option>
+                          <option value="female">Female</option>
+                          <option value="other">Other</option>
+                        </select>
+                      </div>
+            </td>
+            <td>
+              <div class="form-group">
+                <input type="date" name="DOB" class="form-input" placeholder="Enter your date of birth" required="required"  style="width: 220px; height: 44px;  border: 2px inset grey; border-radius: 4px; " >
+              </div>
+            </td>
+          </tr>
+        </table>
+        <div class="form-group">
+            <div class="form-group right" >
+            <input type="text" name="Dept" class="form-input" placeholder="Enter your Department" required="required">
+            </div>
+        </div>
+          <input type="text" name="Email" class="form-input" placeholder="Enter your email" required="required">
+        </div>
+        <div class="form-group">
+            <input type="text" name="Mobileno" class="form-input" placeholder="Enter your mobile number" required="required">
+        </div>
+        <div class="horizontal-group">
+          <div class="form-group left">
+            <input type="password" name="Password" class="form-input" placeholder="Enter your password" required="required">
+          </div>
+          <div class="form-group right">
+            <input type="password" class="form-input" name="Repassword" placeholder="Please Reenter Password" required="required">
+          </div>
+        </div>
+          <p>{{ info }}
+
+          </p>  
+          <button type="submit">SUBMIT</button> <p class="register">  <a href="{% url 'login' %}">Back to login Page</a>
+          </p>
+            
+    </form>
+  </body>
+</html>

@@ -1,0 +1,285 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- <link rel="stylesheet" href="{%  static 'style2.css' %}"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/fontawesome.min.css" integrity="sha512-giQeaPns4lQTBMRpOOHsYnGw1tGVzbAIHUyHRgn7+6FmiEgGGjaG0T2LZJmAPMzRCl+Cug0ItQ2xDZpTmEc+CQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Show</title>
+    <style>
+ body 
+ {
+  font-family:sans-serif; 
+  background: -webkit-linear-gradient(to right, #155799, #159957);  
+  background: linear-gradient(to right, #155799, #159957); 
+  color:whitesmoke;
+ }
+ label{
+    color: black;
+ }
+ h4{
+    color: black;
+    font-style:  Verdana ;
+ }
+
+ table,th{
+  font-style: verdana;
+  color: black;
+
+ }
+
+
+ table,td{
+    color: whitesmoke;
+ }
+ h1{
+    margin-left: 30rem;
+ }
+ h3{
+  margin-left: 32rem;
+  background-color: black;
+  width: 300px;
+  padding: 7px;
+  border-radius: 1%;
+ }
+</style>
+</head>
+<body>  
+  <h1 style="margin-bottom: 30px;"> <b> Employee's List </b></h1>
+  <table class="table" style="width: 70rem; margin-left: 60px; color: black;">
+      <thead>
+        <tr>
+          <th scope="col">SR.NO</th>
+          <th scope="col">Name</th>
+          <th scope="col">Gender</th>
+          <th scope="col">DOB</th>
+          <th scope="col">Email</th>
+          <th scope="col">Mobileno</th>
+          <th scope="col">Department</th>
+          <!-- <th scope="col">Admin</th> -->
+          <!-- <th scope="col">USERNAME</th> -->
+          <th scope="col">Update/Delete</th>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+          {% for i in data %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ i.2 }}</td>
+          <td>{{ i.3 }}</td>
+          <td>{{ i.4 }}</td>
+          <td>{{ i.5 }}</td>
+          <td>{{ i.6 }}</td>
+          <td>{{ i.7 }}</td>
+          <td><button onclick="update_fun('{{i.0}},{{i.1}},{{i.2}},{{i.3}},{{i.4|slugify}},{{i.5}},{{i.6}},{{i.7}}')"  data-toggle="modal" data-target="#exampleModalLong" class="btn btn-primary btn-sm">Update</button> <button onclick="delete_fun('{{i.0}}')"  type="button" data-toggle="modal" id="delete" data-target="#myModaldelete" class="btn btn-danger btn-sm btn-del">delete</button>
+          </td>
+          
+      </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p class="info"></p>
+    {% for message in messages %}
+    <center>
+      <div class="message344">
+        {{ message }}
+        <a href="#" class="del-msg123">&times;</a>
+      </div>
+  {% endfor %}
+  </center>
+
+    <!-- Updte Modal -->
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle" style="color: black; "> <b> Update  </b></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form  method="POST">
+              {% csrf_token %}
+              <div class="form-group">
+                <input type="hidden"  name="id" id="num" class="form-control"  placeholder="Enter username" required />
+              </div>
+              <div class="form-group">
+                <input type="text"  name="Fname" id="uname" class="form-control" placeholder="Enter username" required />
+              </div>
+              <div class="form-group">
+                <input type="text"  name="Lname" id="Fname" class="form-control" placeholder="Enter You Name" required />
+              </div>
+              <div class="form-group">
+                <select  name="Gender" id="gender" class="form-control">
+                  <option value="male" sele>Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+              </select>
+              </div>
+              <div class="form-group">
+                <input type="date" name="DOB" id="date" class="form-control" placeholder="Enter Your birthdate" required />
+              </div>
+              <div class="form-group">
+                <input type="email" name="Email"  id="email" class="form-control" placeholder="Enter your Email" required />
+              </div>
+              <div class="form-group">
+                <input type="text" name="Mobileno" id="mobileno" class="form-control" placeholder="Enter Your Mobile number" required />
+              </div>
+              <div class="form-group">
+                <input type="text"  name="Dept" id="dept" class="form-control" placeholder="Enter Department" required />
+              </div>
+          </div>
+          <div class="modal-footer">
+              <input type="button" id="save_upd" class="btn btn-primary" data-dismiss="modal"  id="submit" value="Submit">
+            </form>
+          </div>         
+        </div>
+      </div>
+    </div>
+        <!-- Delete modal -->
+        
+  <div class="modal fade" id="myModaldelete" tabindex="-1" role="dialog" aria-labelledby="myModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle" style="color: black; "> <b> Modal title </b></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p style="color: black;">  <b> Are You Sure ? </b></p>
+        </div>
+        <div class="modal-footer">
+          <form action="" method="POST">
+            <input type="hidden" name="id" id="delete_id_click">
+            <input type="button" id="delete11" class="btn btn-primary" data-dismiss="modal" value="Delete">
+          </form>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Add Employees Modal -->
+  <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#myModal" style="position:absolute; top:30px;right:200px">Add New Employee</button>
+  <a href="{% url 'logout' %}" class="btn btn-dark"  style="position:absolute;; top:30px;right:100px">Log-out</a>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" style="color: black;"> <b> ADD EMPLOYEE </b></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" >
+          <form action="" method="POST">
+            <div class="form-group">
+              {% csrf_token %}
+              <!-- <label >Username:</label> -->
+              <input type="text" name="Fname" id="user_name" placeholder="Enter username" required class="form-control">
+          </div>
+        <div class="form-group">
+          <!-- <label >Name:</label> -->
+          <input type="text" class="form-control" name="Lname" id="Name"  placeholder="Enter your Full name" >
+        </div>
+        <div class="form-group">
+          <!--  <label >Gender:</label> -->
+          <select class="form-input form-control" name="Gender" id="Gender_">
+            <option value="male">Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <!-- <label >DOB:</label> -->
+          <input type="date" class="form-control" name="DOB" id="DOB_" placeholder="Enter your date of birth" required>
+        </div>
+        <div class="form-group">
+          <!-- <label >Department:</label> -->
+          <input type="text"  class="form-control" name="Dept" id="Dept_" placeholder="Enter your Department" required>
+        </div>
+        <div class="form-group">
+          <!-- <label >Mobileno:</label> -->
+          <input type="text"  class="form-control" name="Mobileno" id="Mobilen_o" placeholder="Enter your Mobile Number" required>
+        </div>
+        <div class="form-group">
+          <!-- <label >Email:</label> -->
+          <input type="email" name="Email" id="Email_Id"  class="form-control" placeholder="Enter your Email" required>
+        </div>
+        <div class="form-group">
+          <!-- <label >Password:</label> -->
+          <input type="password" name="Password" id="Password_" class="form-control" placeholder="Enter your password" required>
+        </div>
+        <div class="form-group">
+          <!-- <label >Repassword:</label> -->
+          <input type="password " name="Repassword" id="Re_password" class="form-control" placeholder="Enter Confirm password" required>
+        </div>
+        <div class="modal-footer">
+          <div>
+            <p class="Error_add"></p>
+          </div>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" id="save_add" class="btn btn-primary" data-dismiss="modal" style="margin-right: 10rem;">Save</button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+   
+{% include 'app1/ajax.html' %} 
+<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+<script>
+  
+        function delete_fun(id) {
+          document.getElementById('delete_id_click').value=id
+         }
+
+        function update_fun(id) {
+          var array = id.split(",");
+          console.log(array)
+          if (array[3]=='male'){
+            gender=0
+          }
+          else if (array[3]=='female'){
+            gender=1
+          }
+          else{
+              gender=2
+          }
+          document.getElementById('num').value=array[0];
+          document.getElementById('uname').value=array[1];
+          document.getElementById('Fname').value=array[2];
+          document.getElementById('gender').selectedIndex=array[3];
+          document.getElementById('date').value=array[4];
+          document.getElementById('email').value=array[5];
+          document.getElementById('mobileno').value=array[6];
+          document.getElementById('dept').value=array[7];
+         }
+      // Jquery
+
+    $(document).ready(function() {
+        setTimeout(function() {
+            $('.message344').fadeOut('slow');
+        },10000); // <-- time in milliseconds, 1000 =  1 sec
+
+        // delete message
+        $('.del-msg123').live('click',function(){
+            $('.del-msg123').parent().attr('style', 'display:none;');
+        })
+    });
+
+    // Ajax
+  
+</script> 
+
+</body>
+</html>   

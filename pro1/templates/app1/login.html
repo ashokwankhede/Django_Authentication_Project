@@ -1,0 +1,32 @@
+{%  load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login page </title>
+    <link rel="stylesheet" href="{%  static 'style.css' %}">
+    <style>
+        form{
+            width: 25rem;
+        }
+    </style>
+</head>
+<body>
+    <center>
+    <form action="" method="POST" style="margin-top: 40px;">
+        <div class="headingsContainer">
+            <h1>Log In</h1>
+        </div>
+        <div class="mainContainer">
+            <input type="text" placeholder="Enter Username" name="Fname" required>
+            <br><br>
+            <input type="password" placeholder="Enter Password" name="Password" required>
+            <br>
+            <p >{{ Info }}</p>
+            <p class="register">Forgot Password?  <a href="{% url 'forgot_pass' %}">Click here!</a></p>
+             <button type="submit">Login</button>
+            <p class="register">New member?  <a href="{% url 'register' %}">Register here!</a></p>
+        </div>
+    </form>
+</center>
+</body>
+</html>

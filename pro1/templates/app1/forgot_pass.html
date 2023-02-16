@@ -1,0 +1,30 @@
+{%  load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login page </title>
+    <link rel="stylesheet" href="{%  static 'style.css' %}">
+    <style>
+        form{
+            width: 25rem;
+        }
+    </style>
+</head>
+<body>
+    <center>
+    <form action="" method="POST" style="margin-top: 40px;">
+        <div class="headingsContainer">
+            <h1>Reset Password</h1>
+        </div>
+        <div class="mainContainer">
+            <input type="text" placeholder="Enter Your registered Email" name="email" required>
+            <br>
+            <p>{{ msg }}</p>
+            <button type="submit">SUBMIT</button>
+            <p class="register">Not a member?  <a href="{% url 'register' %}">Register here!</a></p>
+            <a href="{% url 'login' %}" class="btn btn-submit" style="color:hwb(189 0% 0%)">Back to login Page</a>
+        </div>
+    </form>
+</center>
+</body>
+</html>
